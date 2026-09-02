@@ -1,0 +1,2396 @@
+1. Find duplicate elements
+
+
+def find_duplicates(numbers):
+    seen = set()
+    duplicates = set()
+
+    for num in numbers:
+        if num in seen:
+            duplicates.add(num)
+        else:
+            seen.add(num)
+
+    return list(duplicates)
+
+
+print(find_duplicates([1, 2, 3, 2, 4, 1, 5]))
+ [1, 2]
+
+
+
+
+---
+
+
+
+2. Find the second-largest number
+
+
+def second_largest(numbers):
+    unique_numbers = list(set(numbers))
+    unique_numbers.sort()
+
+    return unique_numbers[-2]
+
+
+print(second_largest([10, 20, 5, 30, 30, 15]))
+ 20
+
+
+
+
+---
+
+
+
+3. Count frequency of elements
+
+
+def frequency(numbers):
+    result = {}
+
+    for num in numbers:
+        result[num] = result.get(num, 0) + 1
+
+    return result
+
+
+print(frequency([1, 2, 2, 3, 1, 2]))
+ {1: 2, 2: 3, 3: 1}
+
+
+
+
+---
+
+
+
+4. Reverse a string
+
+def reverse_string(value):
+    return value[::-1]
+
+
+print(reverse_string("python"))
+ nohtyp
+
+
+
+
+---
+
+
+
+5. Check palindrome
+
+
+def is_palindrome(value):
+    return value == value[::-1]
+
+
+print(is_palindrome("madam"))
+ True
+
+
+
+
+---
+
+
+
+6. Find missing number
+
+
+def find_missing(numbers):
+    n = len(numbers) + 1
+
+    expected = n * (n + 1) // 2
+    actual = sum(numbers)
+
+    return expected - actual
+
+
+print(find_missing([1, 2, 3, 5]))
+ 4
+
+
+
+
+---
+
+
+
+7. Remove duplicates while preserving order
+
+
+def remove_duplicates(numbers):
+    return list(dict.fromkeys(numbers))
+
+
+print(remove_duplicates([1, 2, 2, 3, 1, 4]))
+ [1, 2, 3, 4]
+
+
+
+---
+
+
+numbers = [1, 2, 2, 3, 1, 4, 3]
+
+result = []
+seen = set()
+
+for num in numbers:
+    if num not in seen:
+        result.append(num)
+        seen.add(num)
+
+print(result)
+
+
+
+
+---
+
+
+
+8. Find common elements between two lists
+
+
+def common_elements(list1, list2):
+    return list(set(list1) & set(list2))
+
+
+print(common_elements([1, 2, 3, 4], [3, 4, 5, 6]))
+ [3, 4]
+
+
+
+---
+
+
+
+9. Count vowels
+
+
+def count_vowels(text):
+    vowels = "aeiou"
+    count = 0
+
+    for char in text.lower():
+        if char in vowels:
+            count += 1
+
+    return count
+
+
+print(count_vowels("Python Programming"))
+ 4
+
+
+
+---
+
+
+
+10. Find first non-repeated character
+
+
+def first_non_repeated(text):
+    frequency = {}
+
+    for char in text:
+        frequency[char] = frequency.get(char, 0) + 1
+
+    for char in text:
+        if frequency[char] == 1:
+            return char
+
+    return None
+
+
+print(first_non_repeated("aabbcde"))
+ c
+
+
+---
+
+
+
+ 11. Sort a list of dictionaries
+
+Very common in real-time/project interviews.
+
+
+employees = [
+    {"name": "John", "salary": 50000},
+    {"name": "David", "salary": 70000},
+    {"name": "Alex", "salary": 60000}
+]
+
+result = sorted(
+    employees,
+    key=lambda employee: employee["salary"],
+    reverse=True
+)
+
+print(result)
+
+
+---
+
+
+
+ 12. Find employees with salary 50,000
+
+
+employees = [
+    {"name": "John", "salary": 50000},
+    {"name": "David", "salary": 70000},
+    {"name": "Alex", "salary": 40000}
+]
+
+result = [
+    employee
+    for employee in employees
+    if employee["salary"] 50000
+]
+
+print(result)
+
+
+---
+
+
+
+ 13. Exception handling
+
+Scenario: API/database operation fails. How do you handle it?
+
+
+def divide(a, b):
+
+    try:
+        result = a / b
+        return result
+
+    except ZeroDivisionError:
+        return "Cannot divide by zero"
+
+    except Exception as e:
+        return f"Unexpected error: {e}"
+
+    finally:
+        print("Operation completed")
+
+
+print(divide(10, 0))
+
+
+
+
+---
+
+
+
+ 14. Read a large file efficiently
+
+Scenario: You have a 10 GB log file. Don't load the entire file into memory.
+
+
+def process_log_file(filename):
+
+    with open(filename, "r") as file:
+
+        for line in file:
+            if "ERROR" in line:
+                print(line.strip())
+
+
+
+
+---
+
+
+
+ 15. Generator for large data
+
+
+def generate_numbers(n):
+
+    for i in range(n):
+        yield i
+
+
+for number in generate_numbers(5):
+    print(number)
+
+
+Why `yield`?
+
+`yield` creates a generator and produces values lazily, so it is memory efficient for large datasets.
+
+
+
+---
+
+
+
+ 16. Decorator scenario
+
+Scenario: Log every function execution.
+
+
+def logger(func):
+
+    def wrapper(args, kwargs):
+        print(f"Calling {func.__name__}")
+
+        result = func(args, kwargs)
+
+        print(f"Completed {func.__name__}")
+
+        return result
+
+    return wrapper
+
+
+@logger
+def add(a, b):
+    return a + b
+
+
+print(add(10, 20))
+
+
+
+
+---
+
+
+
+ 17. OOP scenario
+
+
+class Employee:
+
+    def __init__(self, name, salary):
+        self.name = name
+        self.salary = salary
+
+    def display(self):
+        print(self.name, self.salary)
+
+
+employee = Employee("John", 60000)
+
+employee.display()
+
+
+Interview answer:
+
+I use classes when I want to encapsulate related data and behavior and create multiple objects from the same structure.
+
+
+
+---
+
+
+
+ 18. Inheritance scenario
+
+
+class Employee:
+
+    def work(self):
+        print("Employee is working")
+
+
+class Developer(Employee):
+
+    def code(self):
+        print("Developer is coding")
+
+
+developer = Developer()
+
+developer.work()
+developer.code()
+
+
+---
+
+
+
+ 19. API response processing
+
+Scenario: Extract employee names from an API response.
+
+
+response = {
+    "employees": [
+        {"id": 1, "name": "John"},
+        {"id": 2, "name": "David"},
+        {"id": 3, "name": "Alex"}
+    ]
+}
+
+names = [
+    employee["name"]
+    for employee in response["employees"]
+]
+
+print(names)
+
+
+
+---
+
+
+
+ 20. Retry failed operation
+
+Very common in production/support and API interviews.
+
+
+import time
+
+
+def retry_operation(operation, retries=3):
+
+    for attempt in range(1, retries + 1):
+
+        try:
+            return operation()
+
+        except Exception as e:
+
+            print(f"Attempt {attempt} failed: {e}")
+
+            if attempt < retries:
+                time.sleep(2)
+            else:
+                raise
+
+
+
+
+
+==========================================
+
+
+
+
+
+
+
+ 21. Find the top 3 highest salaries
+
+
+employees = [
+    {"name": "John", "salary": 50000},
+    {"name": "David", "salary": 90000},
+    {"name": "Alex", "salary": 70000},
+    {"name": "Sam", "salary": 80000},
+    {"name": "Raj", "salary": 60000}
+]
+
+top_3 = sorted(
+    employees,
+    key=lambda x: x["salary"],
+    reverse=True
+)[:3]
+
+print(top_3)
+
+
+Interview:
+
+I use `sorted()` with a lambda function to sort employees by salary in descending order and slice the first three records.
+
+
+---
+
+
+ 22. Group employees by department
+
+
+from collections import defaultdict
+
+employees = [
+    {"name": "John", "dept": "IT"},
+    {"name": "David", "dept": "HR"},
+    {"name": "Alex", "dept": "IT"},
+    {"name": "Sam", "dept": "Finance"}
+]
+
+result = defaultdict(list)
+
+for employee in employees:
+    result[employee["dept"]].append(employee["name"])
+
+print(dict(result))
+
+
+Output:
+
+
+{
+    'IT': ['John', 'Alex'],
+    'HR': ['David'],
+    'Finance': ['Sam']
+}
+
+
+
+---
+
+
+
+ 23. Find duplicate employees by email
+
+
+employees = [
+    {"name": "John", "email": "john@gmail.com"},
+    {"name": "David", "email": "david@gmail.com"},
+    {"name": "Alex", "email": "john@gmail.com"}
+]
+
+seen = set()
+duplicates = []
+
+for employee in employees:
+
+    email = employee["email"]
+
+    if email in seen:
+        duplicates.append(employee)
+    else:
+        seen.add(email)
+
+print(duplicates)
+
+
+Real-time use: Data validation before inserting records into a database.
+
+
+
+---
+
+
+
+ 24. Merge two dictionaries
+
+
+dict1 = {
+    "name": "John",
+    "age": 30
+}
+
+dict2 = {
+    "salary": 50000,
+    "department": "IT"
+}
+
+result = {dict1, dict2}
+
+print(result)
+
+
+Python 3.9+:
+
+
+result = dict1 | dict2
+
+
+
+---
+
+
+
+ 25. Find maximum occurring character
+
+
+from collections import Counter
+
+text = "python programming"
+
+counter = Counter(text)
+
+result = counter.most_common(1)
+
+print(result)
+
+
+
+---
+
+
+
+ 26. Flatten a nested list
+
+
+numbers = [
+    [1, 2],
+    [3, 4],
+    [5, 6]
+]
+
+result = [
+    number
+    for group in numbers
+    for number in group
+]
+
+print(result)
+
+
+Output:
+
+
+[1, 2, 3, 4, 5, 6]
+
+
+
+---
+
+
+
+ 27. Flatten deeply nested lists
+
+
+def flatten(data):
+
+    result = []
+
+    for item in data:
+
+        if isinstance(item, list):
+            result.extend(flatten(item))
+        else:
+            result.append(item)
+
+    return result
+
+
+data = [1, [2, [3, 4]], [5, 6]]
+
+print(flatten(data))
+
+
+Output:
+
+
+[1, 2, 3, 4, 5, 6]
+
+
+Interview topic: Recursion.
+
+
+
+---
+
+
+
+ 28. Check whether two strings are anagrams
+
+
+def is_anagram(str1, str2):
+
+    return sorted(str1) == sorted(str2)
+
+
+print(is_anagram("listen", "silent"))
+
+
+Better for large strings:
+
+
+from collections import Counter
+
+def is_anagram(str1, str2):
+
+    return Counter(str1) == Counter(str2)
+
+
+
+---
+
+
+
+ 29. Find intersection of multiple lists
+
+
+lists = [
+    [1, 2, 3, 4],
+    [2, 3, 4, 5],
+    [2, 3, 6]
+]
+
+result = set(lists[0])
+
+for values in lists[1:]:
+    result &= set(values)
+
+print(result)
+
+
+Output:
+
+
+{2, 3}
+
+
+
+---
+
+
+
+ 30. Remove empty values from dictionary
+
+
+data = {
+    "name": "John",
+    "age": None,
+    "city": "",
+    "salary": 50000
+}
+
+result = {
+    key: value
+    for key, value in data.items()
+    if value not in (None, "")
+}
+
+print(result)
+
+
+---
+
+
+
+ 31. Count words in a file
+
+
+from collections import Counter
+
+def word_count(filename):
+
+    counter = Counter()
+
+    with open(filename, "r") as file:
+
+        for line in file:
+            words = line.split()
+            counter.update(words)
+
+    return counter
+
+
+Why this approach?
+
+I process the file line by line instead of loading the complete file into memory.
+
+
+
+---
+
+
+
+ 32. Find largest file in a directory
+
+
+import os
+
+def largest_file(directory):
+
+    largest = None
+    largest_size = 0
+
+    for filename in os.listdir(directory):
+
+        path = os.path.join(directory, filename)
+
+        if os.path.isfile(path):
+
+            size = os.path.getsize(path)
+
+            if size largest_size:
+                largest_size = size
+                largest = filename
+
+    return largest, largest_size
+
+
+---
+
+
+
+ 33. Parse CSV file
+
+
+import csv
+
+with open("employees.csv", "r") as file:
+
+    reader = csv.DictReader(file)
+
+    for row in reader:
+        print(row["name"], row["salary"])
+
+
+---
+
+
+
+ 34. Read JSON file
+
+
+import json
+
+with open("employee.json", "r") as file:
+
+    data = json.load(file)
+
+print(data)
+
+
+---
+
+
+
+ 35. Convert Python object to JSON
+
+
+import json
+
+employee = {
+    "id": 101,
+    "name": "John",
+    "salary": 50000
+}
+
+json_data = json.dumps(employee)
+
+print(json_data)
+
+
+---
+
+
+
+ 36. Handle missing dictionary keys
+
+Instead of:
+
+
+name = employee["name"]
+
+
+which can raise `KeyError`, use:
+
+
+name = employee.get("name")
+
+
+Or:
+
+
+name = employee.get("name", "Unknown")
+
+
+Interview answer:
+
+I prefer `dict.get()` when a key may be missing because it allows me to provide a default value without raising `KeyError`.
+
+
+---
+
+
+
+ 37. Find records with missing fields
+
+
+employees = [
+    {"name": "John", "email": "john@gmail.com"},
+    {"name": "David"},
+    {"name": "Alex", "email": "alex@gmail.com"}
+]
+
+invalid_records = [
+    employee
+    for employee in employees
+    if "email" not in employee
+]
+
+print(invalid_records)
+
+
+---
+
+
+
+ 38. Validate input data
+
+
+def validate_employee(employee):
+
+    required_fields = [
+        "name",
+        "email",
+        "salary"
+    ]
+
+    for field in required_fields:
+
+        if field not in employee:
+            return False
+
+    return True
+
+
+In a FastAPI project, this type of validation is normally better handled using Pydantic models.
+
+
+
+---
+
+
+ 39. Singleton scenario
+
+Question: Ensure only one instance of a class exists.
+
+
+class Singleton:
+
+    _instance = None
+
+    def __new__(cls):
+
+        if cls._instance is None:
+            cls._instance = super().__new__(cls)
+
+        return cls._instance
+
+
+obj1 = Singleton()
+obj2 = Singleton()
+
+print(obj1 is obj2)
+
+
+Output:
+
+
+True
+
+
+---
+
+
+
+ 40. Class method vs static method
+
+
+class Employee:
+
+    company = "ABC"
+
+    def __init__(self, name):
+        self.name = name
+
+    @classmethod
+    def get_company(cls):
+        return cls.company
+
+    @staticmethod
+    def add(a, b):
+        return a + b
+
+
+Usage:
+
+
+print(Employee.get_company())
+
+print(Employee.add(10, 20))
+
+
+Interview answer:
+
+`classmethod` receives `cls` and can access class-level data. `staticmethod` doesn't receive either `self` or `cls` and behaves like a normal utility function inside the class.
+
+
+
+---
+
+
+
+ 41. Property decorator
+
+
+class Employee:
+
+    def __init__(self, salary):
+        self._salary = salary
+
+    @property
+    def salary(self):
+        return self._salary
+
+    @salary.setter
+    def salary(self, value):
+
+        if value < 0:
+            raise ValueError("Salary cannot be negative")
+
+        self._salary = value
+
+
+Usage:
+
+
+employee = Employee(50000)
+
+employee.salary = 60000
+
+print(employee.salary)
+
+
+
+---
+
+
+
+ 42. Context manager
+
+
+with open("data.txt", "r") as file:
+    data = file.read()
+
+
+Interview answer:
+
+The `with` statement automatically handles resource cleanup. For example, a file is automatically closed after the block finishes, even if an exception occurs.
+
+
+---
+
+
+ 43. Custom context manager
+
+
+class DatabaseConnection:
+
+    def __enter__(self):
+        print("Connection opened")
+        return self
+
+    def __exit__(self, exc_type, exc_value, traceback):
+        print("Connection closed")
+
+
+with DatabaseConnection():
+    print("Executing query")
+
+
+---
+
+ 44. Multithreading scenario
+
+Question: Execute multiple I/O operations concurrently.
+
+
+from concurrent.futures import ThreadPoolExecutor
+import time
+
+
+def download_file(file):
+    print(f"Downloading {file}")
+    time.sleep(2)
+    return f"{file} completed"
+
+
+files = ["file1", "file2", "file3"]
+
+with ThreadPoolExecutor(max_workers=3) as executor:
+
+    results = executor.map(download_file, files)
+
+    for result in results:
+        print(result)
+
+
+Interview answer:
+
+I use threads mainly for I/O-bound operations such as API calls, file operations, and network requests.
+
+---
+
+ 45. Multiprocessing scenario
+
+For CPU-intensive work:
+
+
+from concurrent.futures import ProcessPoolExecutor
+
+
+def calculate(number):
+    return number  number
+
+
+numbers = [1, 2, 3, 4, 5]
+
+with ProcessPoolExecutor() as executor:
+
+    results = executor.map(calculate, numbers)
+
+print(list(results))
+
+
+Key interview point:
+
+Threading is generally suitable for I/O-bound work, while multiprocessing is useful for CPU-bound work because separate processes can execute Python code independently of the GIL.
+
+---
+
+ 46. Async API scenario
+
+
+import asyncio
+
+
+async def fetch_data():
+
+    print("Starting API call")
+
+    await asyncio.sleep(2)
+
+    return "API response"
+
+
+async def main():
+
+    result = await fetch_data()
+
+    print(result)
+
+
+asyncio.run(main())
+
+
+---
+
+ 47. Run multiple async operations
+
+
+import asyncio
+
+
+async def fetch_api(name):
+
+    await asyncio.sleep(2)
+    return f"{name} completed"
+
+
+async def main():
+
+    results = await asyncio.gather(
+        fetch_api("API-1"),
+        fetch_api("API-2"),
+        fetch_api("API-3")
+    )
+
+    print(results)
+
+
+asyncio.run(main())
+
+
+Interview answer:
+
+`asyncio.gather()` allows multiple independent asynchronous operations to run concurrently.
+
+---
+
+ 48. Simple caching
+
+
+from functools import lru_cache
+
+
+@lru_cache(maxsize=100)
+def calculate_square(number):
+
+    print("Calculating...")
+
+    return number  number
+
+
+print(calculate_square(10))
+print(calculate_square(10))
+
+
+The second call can use the cached result.
+
+---
+
+ 49. Pagination
+
+Very common in FastAPI interviews.
+
+
+def paginate(data, page, page_size):
+
+    start = (page - 1)  page_size
+    end = start + page_size
+
+    return data[start:end]
+
+
+data = list(range(1, 101))
+
+print(paginate(data, page=2, page_size=10))
+
+
+Output:
+
+
+[11, 12, 13, 14, 15, 16, 17, 18, 19, 20]
+
+
+---
+
+ 50. API error handling in FastAPI
+
+
+from fastapi import FastAPI, HTTPException
+
+app = FastAPI()
+
+
+@app.get("/employees/{employee_id}")
+def get_employee(employee_id: int):
+
+    employee = None
+
+    if employee is None:
+        raise HTTPException(
+            status_code=404,
+            detail="Employee not found"
+        )
+
+    return employee
+
+
+
+
+
+
+============================================
+
+
+
+
+Yes. Here are more advanced, real-time Python scenario questions that are frequently useful for 4–6+ years interviews. I’ll focus less on basic programs and more on what an interviewer may ask you to implement or explain.
+
+---
+
+ 51. Find the first duplicate
+
+
+def first_duplicate(numbers):
+
+    seen = set()
+
+    for number in numbers:
+
+        if number in seen:
+            return number
+
+        seen.add(number)
+
+    return None
+
+
+print(first_duplicate([10, 20, 30, 20, 40]))
+
+
+Answer:
+
+I use a set to track previously seen values. As soon as I find an existing value, I return it.
+
+Complexity: O(n) time, O(n) space.
+
+---
+
+ 52. Find two numbers whose sum equals target
+
+
+def two_sum(numbers, target):
+
+    seen = set()
+
+    for number in numbers:
+
+        complement = target - number
+
+        if complement in seen:
+            return complement, number
+
+        seen.add(number)
+
+    return None
+
+
+print(two_sum([2, 7, 11, 15], 9))
+
+
+Output:
+
+
+(2, 7)
+
+
+Interview point:
+
+Instead of using nested loops with O(n²), I use a set to achieve O(n) average time.
+
+---
+
+ 53. Find all pairs with target sum
+
+
+def all_pairs(numbers, target):
+
+    seen = set()
+    pairs = set()
+
+    for number in numbers:
+
+        complement = target - number
+
+        if complement in seen:
+            pairs.add(tuple(sorted((number, complement))))
+
+        seen.add(number)
+
+    return list(pairs)
+
+
+print(all_pairs([2, 7, 11, 15, 3, 6], 9))
+
+
+---
+
+ 54. Find longest word
+
+
+def longest_word(sentence):
+
+    words = sentence.split()
+
+    return max(words, key=len)
+
+
+print(longest_word("Python is powerful programming language"))
+
+
+---
+
+ 55. Find longest substring without repeating characters
+
+
+def longest_unique_substring(text):
+
+    seen = set()
+    left = 0
+    max_length = 0
+
+    for right in range(len(text)):
+
+        while text[right] in seen:
+            seen.remove(text[left])
+            left += 1
+
+        seen.add(text[right])
+
+        max_length = max(
+            max_length,
+            right - left + 1
+        )
+
+    return max_length
+
+
+print(longest_unique_substring("abcabcbb"))
+
+
+Interview concept: Sliding window.
+
+---
+
+ 56. Find common employees between departments
+
+
+it_employees = {
+    "John",
+    "David",
+    "Alex"
+}
+
+finance_employees = {
+    "Alex",
+    "Sam",
+    "John"
+}
+
+common = it_employees & finance_employees
+
+print(common)
+
+
+---
+
+ 57. Find employees present in IT but not Finance
+
+
+result = it_employees - finance_employees
+
+print(result)
+
+
+---
+
+ 58. Merge records using ID
+
+
+employees = [
+    {"id": 1, "name": "John"},
+    {"id": 2, "name": "David"}
+]
+
+salaries = [
+    {"id": 1, "salary": 50000},
+    {"id": 2, "salary": 70000}
+]
+
+salary_map = {
+    item["id"]: item["salary"]
+    for item in salaries
+}
+
+result = []
+
+for employee in employees:
+
+    employee_id = employee["id"]
+
+    result.append({
+        employee,
+        "salary": salary_map.get(employee_id)
+    })
+
+print(result)
+
+
+Real-world use: Joining two API/database datasets.
+
+---
+
+ 59. Convert list into dictionary efficiently
+
+
+employees = [
+    {"id": 101, "name": "John"},
+    {"id": 102, "name": "David"},
+    {"id": 103, "name": "Alex"}
+]
+
+employee_map = {
+    employee["id"]: employee
+    for employee in employees
+}
+
+print(employee_map[102])
+
+
+Interview point:
+
+Creating an ID-based dictionary allows O(1) average lookup instead of repeatedly scanning the list.
+
+---
+
+ 60. Detect missing IDs
+
+
+expected_ids = {101, 102, 103, 104, 105}
+
+actual_ids = {101, 102, 104}
+
+missing_ids = expected_ids - actual_ids
+
+print(missing_ids)
+
+
+---
+
+ 61. Detect invalid records
+
+
+employees = [
+    {"name": "John", "salary": 50000},
+    {"name": "David", "salary": -1000},
+    {"name": "", "salary": 60000}
+]
+
+invalid = []
+
+for employee in employees:
+
+    if not employee["name"]:
+        invalid.append(employee)
+
+    elif employee["salary"] < 0:
+        invalid.append(employee)
+
+print(invalid)
+
+
+---
+
+ 62. Retry with exponential backoff
+
+This is a very good production interview scenario.
+
+
+import time
+
+
+def retry(operation, retries=3):
+
+    for attempt in range(retries):
+
+        try:
+            return operation()
+
+        except Exception:
+
+            if attempt == retries - 1:
+                raise
+
+            delay = 2  attempt
+
+            time.sleep(delay)
+
+
+The delays are:
+
+
+1 sec
+2 sec
+4 sec
+
+
+Interview answer:
+
+I use exponential backoff for transient failures such as network or external API failures. I also put a maximum retry limit to avoid continuously hammering the downstream service.
+
+---
+
+ 63. Timeout for an operation
+
+
+import concurrent.futures
+
+
+def long_running_task():
+    import time
+    time.sleep(10)
+    return "Completed"
+
+
+with concurrent.futures.ThreadPoolExecutor() as executor:
+
+    future = executor.submit(long_running_task)
+
+    try:
+        result = future.result(timeout=3)
+        print(result)
+
+    except concurrent.futures.TimeoutError:
+        print("Operation timed out")
+
+
+---
+
+ 64. Rate limiter
+
+Scenario: Allow only 5 requests within a time window.
+
+
+import time
+
+
+class RateLimiter:
+
+    def __init__(self, limit, window):
+        self.limit = limit
+        self.window = window
+        self.requests = []
+
+    def allow_request(self):
+
+        current_time = time.time()
+
+        self.requests = [
+            request_time
+            for request_time in self.requests
+            if current_time - request_time < self.window
+        ]
+
+        if len(self.requests) >= self.limit:
+            return False
+
+        self.requests.append(current_time)
+
+        return True
+
+
+Production discussion:
+For distributed applications, I would normally implement rate limiting using a shared store such as Redis rather than an in-memory list.
+
+---
+
+ 65. LRU cache
+
+Python already provides an implementation:
+
+
+from functools import lru_cache
+
+
+@lru_cache(maxsize=100)
+def get_employee(employee_id):
+
+    print("Fetching from database")
+
+    return {
+        "id": employee_id,
+        "name": "John"
+    }
+
+
+print(get_employee(101))
+print(get_employee(101))
+
+
+Interview point:
+
+The second call can return the cached result instead of executing the database operation again.
+
+---
+
+ 66. Producer-consumer pattern
+
+
+from queue import Queue
+import threading
+import time
+
+
+queue = Queue()
+
+
+def producer():
+
+    for i in range(5):
+        queue.put(i)
+        print("Produced:", i)
+
+
+def consumer():
+
+    while True:
+
+        item = queue.get()
+
+        if item is None:
+            break
+
+        print("Consumed:", item)
+
+        queue.task_done()
+
+
+producer_thread = threading.Thread(
+    target=producer
+)
+
+consumer_thread = threading.Thread(
+    target=consumer
+)
+
+consumer_thread.start()
+producer_thread.start()
+
+producer_thread.join()
+
+queue.put(None)
+
+consumer_thread.join()
+
+
+Interview concept: Thread-safe communication between producer and consumer.
+
+---
+
+ 67. Thread-safe counter
+
+
+import threading
+
+
+class Counter:
+
+    def __init__(self):
+        self.value = 0
+        self.lock = threading.Lock()
+
+    def increment(self):
+
+        with self.lock:
+            self.value += 1
+
+
+counter = Counter()
+
+threads = [
+    threading.Thread(
+        target=counter.increment
+    )
+    for _ in range(100)
+]
+
+for thread in threads:
+    thread.start()
+
+for thread in threads:
+    thread.join()
+
+print(counter.value)
+
+
+Interview answer:
+
+I use a lock when multiple threads modify shared mutable state to prevent race conditions.
+
+---
+
+ 68. Avoid race condition
+
+Bad approach:
+
+
+counter += 1
+
+
+when multiple threads access shared state.
+
+Better:
+
+
+with lock:
+    counter += 1
+
+
+---
+
+ 69. Execute API calls concurrently
+
+
+from concurrent.futures import ThreadPoolExecutor
+
+
+def call_api(url):
+    print(f"Calling {url}")
+    return f"Response from {url}"
+
+
+urls = [
+    "api1",
+    "api2",
+    "api3",
+    "api4"
+]
+
+with ThreadPoolExecutor(max_workers=4) as executor:
+
+    results = list(
+        executor.map(call_api, urls)
+    )
+
+print(results)
+
+
+Interview answer:
+
+Since API calls are I/O-bound, threads can improve throughput by allowing multiple requests to wait concurrently.
+
+---
+
+ 70. Async API calls
+
+
+import asyncio
+
+
+async def call_api(name):
+
+    await asyncio.sleep(1)
+
+    return f"{name} completed"
+
+
+async def main():
+
+    tasks = [
+        call_api("API-1"),
+        call_api("API-2"),
+        call_api("API-3")
+    ]
+
+    results = await asyncio.gather(tasks)
+
+    print(results)
+
+
+asyncio.run(main())
+
+
+---
+
+ 71. Handle partial API failures
+
+
+import asyncio
+
+
+async def api_call(name):
+
+    if name == "API-2":
+        raise Exception("API failed")
+
+    return f"{name} success"
+
+
+async def main():
+
+    results = await asyncio.gather(
+        api_call("API-1"),
+        api_call("API-2"),
+        api_call("API-3"),
+        return_exceptions=True
+    )
+
+    for result in results:
+
+        if isinstance(result, Exception):
+            print("Failed:", result)
+        else:
+            print(result)
+
+
+asyncio.run(main())
+
+
+---
+
+ 72. Custom exception
+
+
+class InsufficientBalanceError(Exception):
+    pass
+
+
+def withdraw(balance, amount):
+
+    if amount balance:
+        raise InsufficientBalanceError(
+            "Insufficient balance"
+        )
+
+    return balance - amount
+
+
+try:
+    print(withdraw(1000, 1500))
+
+except InsufficientBalanceError as e:
+    print(e)
+
+
+Interview answer:
+
+I create custom exceptions when domain-specific errors need to be clearly separated from generic Python exceptions.
+
+---
+
+ 73. Logging instead of print
+
+
+import logging
+
+
+logging.basicConfig(
+    level=logging.INFO
+)
+
+logger = logging.getLogger(__name__)
+
+
+def process_employee(employee_id):
+
+    logger.info(
+        "Processing employee %s",
+        employee_id
+    )
+
+    try:
+         processing
+        pass
+
+    except Exception:
+        logger.exception(
+            "Employee processing failed"
+        )
+
+
+process_employee(101)
+
+
+Production interview point:
+
+In production applications, I prefer structured logging over `print()` because logs need levels, timestamps, traceability, and centralized monitoring.
+
+---
+
+ 74. Environment variables
+
+
+import os
+
+database_url = os.getenv(
+    "DATABASE_URL"
+)
+
+print(database_url)
+
+
+With `.env`:
+
+
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
+
+database_url = os.getenv("DATABASE_URL")
+
+
+Interview answer:
+
+I don't hardcode passwords, API keys, or database credentials. I keep configuration in environment variables or a secret manager.
+
+---
+
+ 75. Password hashing
+
+For an application, don't store passwords as plain text.
+
+
+from passlib.context import CryptContext
+
+
+pwd_context = CryptContext(
+    schemes=["bcrypt"],
+    deprecated="auto"
+)
+
+
+password = "Admin@123"
+
+hashed = pwd_context.hash(password)
+
+print(hashed)
+
+print(
+    pwd_context.verify(
+        password,
+        hashed
+    )
+)
+
+
+---
+
+ 76. Validate email using Pydantic
+
+Very relevant for FastAPI:
+
+
+from pydantic import BaseModel, EmailStr
+
+
+class Employee(BaseModel):
+
+    name: str
+    email: EmailStr
+    salary: float
+
+
+employee = Employee(
+    name="John",
+    email="john@gmail.com",
+    salary=50000
+)
+
+print(employee)
+
+
+---
+
+ 77. FastAPI dependency scenario
+
+
+from fastapi import FastAPI, Depends
+
+
+app = FastAPI()
+
+
+def get_current_user():
+    return {
+        "username": "admin",
+        "role": "admin"
+    }
+
+
+@app.get("/employees")
+def get_employees(
+    user=Depends(get_current_user)
+):
+
+    return {
+        "user": user,
+        "employees": []
+    }
+
+
+Interview answer:
+
+FastAPI dependencies allow me to centralize reusable logic such as authentication, authorization, database sessions, and common validation.
+
+---
+
+ 78. Role-based authorization
+
+
+from fastapi import HTTPException
+
+
+def check_admin(user):
+
+    if user["role"] != "admin":
+
+        raise HTTPException(
+            status_code=403,
+            detail="Admin access required"
+        )
+
+    return True
+
+
+Real-time scenario:
+
+
+Admin       → Create + Read + Update + Delete
+Developer   → Create + Read
+
+
+This is a very common backend interview scenario.
+
+---
+
+ 79. Database transaction scenario
+
+Conceptually:
+
+
+try:
+
+    db.add(employee)
+
+    db.commit()
+
+except Exception:
+
+    db.rollback()
+
+    raise
+
+
+Interview answer:
+
+I commit only after successful operations. If an exception occurs, I roll back the transaction so the database doesn't remain in an inconsistent state.
+
+---
+
+ 80. Bulk processing
+
+Instead of:
+
+
+for employee in employees:
+    db.add(employee)
+    db.commit()
+
+
+Prefer batching:
+
+
+db.add_all(employees)
+
+db.commit()
+
+
+For very large datasets, process records in controlled batches rather than keeping millions of objects in memory.
+
+---
+
+ 81. Avoid N+1 queries
+
+Bad scenario:
+
+
+employees = get_employees()
+
+for employee in employees:
+    department = get_department(
+        employee.department_id
+    )
+
+
+This can generate many database queries.
+
+Interview answer:
+
+I identify N+1 query problems using query logs/APM and solve them using joins, eager loading, or batch queries depending on the ORM and use case.
+
+---
+
+ 82. Process million records in batches
+
+
+def process_in_batches(data, batch_size=1000):
+
+    for start in range(
+        0,
+        len(data),
+        batch_size
+    ):
+
+        batch = data[
+            start:start + batch_size
+        ]
+
+        process(batch)
+
+
+Interview point:
+
+Batch processing controls memory consumption and prevents huge transactions.
+
+---
+
+ 83. Memory-efficient processing with generator
+
+Instead of:
+
+
+def get_numbers():
+
+    return [
+        i for i in range(10_000_000)
+    ]
+
+
+Use:
+
+
+def get_numbers():
+
+    for i in range(10_000_000):
+        yield i
+
+
+Key point:
+
+The generator produces one value at a time instead of creating the complete list in memory.
+
+---
+
+ 84. Shallow copy vs deep copy
+
+
+import copy
+
+
+original = [
+    [1, 2],
+    [3, 4]
+]
+
+shallow = copy.copy(original)
+
+deep = copy.deepcopy(original)
+
+
+Interview answer:
+
+A shallow copy copies the outer object but nested objects can still be shared. A deep copy recursively copies nested objects.
+
+---
+
+ 85. Mutable default argument problem
+
+Bad:
+
+
+def add_employee(
+    employee,
+    employees=[]
+):
+    employees.append(employee)
+    return employees
+
+
+Better:
+
+
+def add_employee(
+    employee,
+    employees=None
+):
+
+    if employees is None:
+        employees = []
+
+    employees.append(employee)
+
+    return employees
+
+
+Very common interview question.
+
+---
+
+ 86. `is` vs `==`
+
+
+a = [1, 2]
+b = [1, 2]
+
+print(a == b)   True
+print(a is b)   False
+
+
+Interview answer:
+
+`==` compares values, while `is` checks whether two references point to the same object.
+
+---
+
+ 87. List vs tuple
+
+
+my_list = [1, 2, 3]
+
+my_tuple = (1, 2, 3)
+
+
+Interview answer:
+
+Lists are mutable, while tuples are immutable. I use tuples when the data should not be modified.
+
+---
+
+ 88. Set for fast lookup
+
+
+employees = [
+    101,
+    102,
+    103,
+    104
+]
+
+employee_set = set(employees)
+
+if 103 in employee_set:
+    print("Employee exists")
+
+
+Interview point:
+
+A set provides average O(1) membership lookup, making it preferable when I need frequent existence checks.
+
+---
+
+ 89. Sort without modifying original list
+
+
+numbers = [5, 2, 8, 1]
+
+sorted_numbers = sorted(numbers)
+
+print(numbers)
+print(sorted_numbers)
+
+
+Whereas:
+
+
+numbers.sort()
+
+
+modifies the original list.
+
+---
+
+ 90. Find top N records efficiently
+
+For large datasets, instead of sorting everything:
+
+
+import heapq
+
+
+numbers = [
+    10, 50, 20, 90, 40, 80
+]
+
+result = heapq.nlargest(
+    3,
+    numbers
+)
+
+print(result)
+
+
+Output:
+
+
+[90, 80, 50]
+
