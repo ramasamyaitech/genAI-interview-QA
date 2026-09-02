@@ -1,0 +1,277 @@
+python -m venv venv
+
+venv\Scripts\activate
+
+
+streamlit
+
+langchain
+langchain-community
+langchain-core
+langchain-text-splitters
+
+langchain-huggingface
+sentence-transformers
+
+faiss-cpu
+
+pypdf
+
+langchain-ollama
+
+
+
+pip install -r requirements.txt
+
+
+
+
+streamlit run myapp.py
+
+
+ollama list
+
+ollama serve
+
+
+
+===============
+
+app.py
+
+
+import streamlit as st
+import tempfile
+import os
+
+
+from langchain_community.document_loaders import PyPDFLoader
+
+from langchain_text_splitters import RecursiveCharacterTextSplitter
+
+from langchain_huggingface import HuggingFaceEmbeddings
+
+from langchain_community.vectorstores import FAISS
+
+from langchain_ollama import OllamaLLM
+
+from langchain_core.prompts import ChatPromptTemplate
+
+from langchain_core.runnables import RunnablePassthrough
+
+
+st.set_page_config(
+    page_title="PDF RAG Chatbot"
+)
+
+
+st.title("📄 PDF Chatbot using FAISS + Llama")
+
+
+
+# ----------------------------
+# Load Embedding Model
+# ----------------------------
+
+@st.cache_resource
+def load_embeddings():
+
+    return HuggingFaceEmbeddings(
+        model_name="sentence-transformers/all-MiniLM-L6-v2"
+    )
+
+
+embeddings = load_embeddings()
+
+
+
+# ----------------------------
+# Upload PDF
+# ----------------------------
+
+uploaded_file = st.file_uploader(
+    "Upload PDF",
+    type="pdf"
+)
+
+
+
+if uploaded_file:
+
+
+    # Save uploaded PDF temporarily
+
+    with tempfile.NamedTemporaryFile(
+        delete=False,
+        suffix=".pdf"
+    ) as temp_file:
+
+        temp_file.write(
+            uploaded_file.read()
+        )
+
+        pdf_path = temp_file.name
+
+
+
+    # ----------------------------
+    # Read PDF
+    # ----------------------------
+
+    loader = PyPDFLoader(
+        pdf_path
+    )
+
+    documents = loader.load()
+
+
+    st.success(
+        f"Loaded {len(documents)} pages"
+    )
+
+
+
+    # ----------------------------
+    # Chunking
+    # ----------------------------
+
+    splitter = RecursiveCharacterTextSplitter(
+
+        chunk_size=500,
+
+        chunk_overlap=100
+    )
+
+
+    chunks = splitter.split_documents(
+        documents
+    )
+
+
+    st.write(
+        f"Created {len(chunks)} chunks"
+    )
+
+
+
+    # ----------------------------
+    # Create FAISS
+    # ----------------------------
+
+    db = FAISS.from_documents(
+
+        chunks,
+
+        embeddings
+
+    )
+
+
+    st.success(
+        "FAISS vector database created"
+    )
+
+
+
+    # ----------------------------
+    # Retriever
+    # ----------------------------
+
+    retriever = db.as_retriever(
+        search_kwargs={
+            "k":3
+        }
+    )
+
+
+
+    # ----------------------------
+    # Ollama LLM
+    # ----------------------------
+
+    
+    llm = OllamaLLM(
+        model="llama3.2:1b",
+        temperature=0.2
+    )
+
+
+
+    prompt = ChatPromptTemplate.from_template(
+    """
+    Answer only from the given context.
+
+    Context:
+    {context}
+
+    Question:
+    {question}
+    """
+    )
+
+
+
+    def format_docs(docs):
+
+        return "\n\n".join(
+            doc.page_content
+            for doc in docs
+        )
+
+
+
+    rag_chain = (
+
+        {
+            "context": retriever | format_docs,
+
+            "question": RunnablePassthrough()
+
+        }
+
+        |
+
+        prompt
+
+        |
+
+        llm
+
+    )
+
+
+
+    # ----------------------------
+    # Question
+    # ----------------------------
+
+    question = st.text_input(
+        "Ask question from PDF"
+    )
+
+
+    if question:
+
+
+        with st.spinner(
+            "Generating answer..."
+        ):
+
+
+            answer = rag_chain.invoke(
+                question
+            )
+
+
+        st.subheader(
+            "Answer"
+        )
+
+        st.write(answer)
+
+
+
+    # Cleanup
+
+    os.remove(pdf_path)
+
